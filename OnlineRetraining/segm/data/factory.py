@@ -31,6 +31,8 @@ def create_dataset(dataset_kwargs):
         dataset = COCODataset(split=split, **dataset_kwargs)
     elif dataset_name == "cityscapes":
         dataset = CityscapesDataset(split=split, **dataset_kwargs)
+    elif dataset_name == "slum_settlements":
+        dataset = CityscapesDataset(split=split, **dataset_kwargs)
     else:
         raise ValueError(f"Dataset {dataset_name} is unknown.")
 

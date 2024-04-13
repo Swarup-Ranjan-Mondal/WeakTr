@@ -1,0 +1,13 @@
+- color:
+  - 120
+  - 120
+  - 120
+  id: 0
+  name: background
+- color:
+  - 255
+  - 255
+  - 255
+  id: 1
+  name: slums
+
