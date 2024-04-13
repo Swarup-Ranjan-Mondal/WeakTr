@@ -169,6 +169,7 @@ colorful.py
 *.json
 data/coco
 data/voc12
+data/slum_settlements
 mlruns/*
 *results*
 OnlineRetraining/mlruns
