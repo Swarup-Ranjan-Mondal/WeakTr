@@ -185,6 +185,49 @@ class SlumSettlementsDataset(Dataset):
 
     def __len__(self):
         return len(self.img_name_list)
+    
+class SlumSettlementsDatasetMS(Dataset):
+    def __init__(self, img_name_list_path, data_root, scales, train=True, transform=None,
+                 gen_attn=False, unit=1):
+        self.img_name_list = load_img_name_list(img_name_list_path)
+        self.data_root = Path(data_root) / "slum_settlements" if "slum_settlements" not in data_root else Path(data_root)
+        self.gt_dir = self.data_root / "voc_format" / "class_labels"
+        self.transform = transform
+        self.train = train
+        self.unit = unit
+        self.scales = scales
+        self.gen_attn = gen_attn
+
+    def __getitem__(self, idx):
+        name = self.img_name_list[idx]
+        img = PIL.Image.open(os.path.join(self.data_root, 'images', name + '.jpg')).convert("RGB")
+        label = torch.tensor([1, 0])
+
+        rounded_size = (
+        int(round(img.size[0] / self.unit) * self.unit), int(round(img.size[1] / self.unit) * self.unit))
+
+        ms_img_list = []
+        for s in self.scales:
+            target_size = (round(rounded_size[0] * s),
+                           round(rounded_size[1] * s))
+            s_img = img.resize(target_size, resample=PIL.Image.CUBIC)
+            ms_img_list.append(s_img)
+
+        if self.transform:
+            for i in range(len(ms_img_list)):
+                ms_img_list[i] = self.transform(ms_img_list[i])
+
+        msf_img_list = []
+        for i in range(len(ms_img_list)):
+            msf_img_list.append(ms_img_list[i])
+
+            # msf_img_list.append(np.flip(ms_img_list[i], -1).copy())
+            msf_img_list.append(torch.flip(ms_img_list[i], [-1]))
+        return msf_img_list, label
+
+    def __len__(self):
+        return len(self.img_name_list)
+
 
 
 def build_dataset(is_train, data_set, args, gen_attn=False):
@@ -213,6 +256,11 @@ def build_dataset(is_train, data_set, args, gen_attn=False):
     elif data_set == 'SLUM':
         dataset = SlumSettlementsDataset(data_root=args.data_path,
                                  train=is_train, gen_attn=gen_attn, transform=transform)
+        nb_classes = 2
+    elif data_set == 'SLUMMS':
+        dataset = SlumSettlementsDatasetMS(img_name_list_path=args.img_ms_list, data_root=args.data_path,
+                                   scales=tuple(args.scales),
+                                   train=is_train, gen_attn=gen_attn, transform=transform)
         nb_classes = 2
 
     return dataset, nb_classes
