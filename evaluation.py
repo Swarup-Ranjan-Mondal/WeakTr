@@ -153,7 +153,7 @@ def do_python_eval(predict_folder, gt_folder, name_list, num_cls=21, input_type=
             tp_list[i] += np.sum((gt == i) * mask)
 
         return p_list, t_list, tp_list
-    print('name list:', name_list)
+
     results = joblib.Parallel(n_jobs=n_jobs, verbose=10, pre_dispatch="all")(
         [joblib.delayed(compare)(j) for j in range(len(name_list))]
     )
