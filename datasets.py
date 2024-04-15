@@ -164,6 +164,29 @@ class VOC12DatasetMS(Dataset):
         return len(self.img_name_list)
 
 
+class SlumSettlementsDataset(Dataset):
+    def __init__(self, data_root, train=True, transform=None, gen_attn=False):
+        img_name_list_path = os.path.join("slum_settlements", f'{"train" if train or gen_attn else "val"}_id.txt')
+        self.img_name_list = load_img_name_list(img_name_list_path)
+        self.data_root = Path(data_root) / "slum_settlements" if "slum_settlements" not in data_root else Path(data_root)
+        self.gt_dir = self.data_root / "voc_format" / "class_labels"
+        self.transform = transform
+        self.train = train
+        self.gen_attn = gen_attn
+
+    def __getitem__(self, idx):
+        name = self.img_name_list[idx]
+        img = PIL.Image.open(os.path.join(self.data_root, 'images', name + '.jpg')).convert("RGB")
+        label = torch.tensor([1, 0])
+        if self.transform:
+            img = self.transform(img)
+
+        return img, label
+
+    def __len__(self):
+        return len(self.img_name_list)
+
+
 def build_dataset(is_train, data_set, args, gen_attn=False):
     transform = build_transform(is_train, args, gen_attn)
     dataset = None
@@ -187,6 +210,10 @@ def build_dataset(is_train, data_set, args, gen_attn=False):
                                    scales=tuple(args.scales),
                                    train=is_train, gen_attn=gen_attn, transform=transform)
         nb_classes = 90
+    elif data_set == 'SLUM':
+        dataset = SlumSettlementsDataset(data_root=args.data_path,
+                                 train=is_train, gen_attn=gen_attn, transform=transform)
+        nb_classes = 2
 
     return dataset, nb_classes
 

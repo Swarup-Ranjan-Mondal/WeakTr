@@ -104,6 +104,7 @@ categories_coco = ['background',
                    'teddy bear',
                    'hair drier',
                    'toothbrush']
+categories_slum_settlements = ['background', 'slums']
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--list", default='voc12/train_id.txt', type=str)

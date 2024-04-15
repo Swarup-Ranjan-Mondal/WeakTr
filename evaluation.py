@@ -104,7 +104,7 @@ categories_coco = ['background',
                    'teddy bear',
                    'hair drier',
                    'toothbrush']
-
+categories_slum_settlements = ['background', 'slums']
 
 def do_python_eval(predict_folder, gt_folder, name_list, num_cls=21, input_type='png', threshold=1.0, printlog=False,
                    out_crf=False, n_jobs=10, img_dir=None, cam_type="cam", out_dir=None):

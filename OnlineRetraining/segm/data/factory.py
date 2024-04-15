@@ -7,6 +7,7 @@ from segm.data import PascalVOCDataset
 from segm.data import CityscapesDataset
 from segm.data import Loader
 from segm.data import COCODataset
+from segm.data import SlumSettlementsDataset
 
 
 def create_dataset(dataset_kwargs):
@@ -32,7 +33,7 @@ def create_dataset(dataset_kwargs):
     elif dataset_name == "cityscapes":
         dataset = CityscapesDataset(split=split, **dataset_kwargs)
     elif dataset_name == "slum_settlements":
-        dataset = CityscapesDataset(split=split, **dataset_kwargs)
+        dataset = SlumSettlementsDataset(split=split, **dataset_kwargs)
     else:
         raise ValueError(f"Dataset {dataset_name} is unknown.")
 
