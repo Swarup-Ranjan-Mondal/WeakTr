@@ -5,7 +5,7 @@ import argparse
 import torch
 from PIL import Image
 import pandas as pd
-from segm.eval.densecrf import crf_inference_voc12, crf_inference_coco
+from segm.eval.densecrf import crf_inference_voc12, crf_inference_coco, crf_inference_slum_settlements
 from pathlib import Path
 
 import torch.nn.functional as F
@@ -157,6 +157,9 @@ if __name__ == '__main__':
                 elif args.dataset == "coco":
                     # seg_prob = F.softmax(torch.tensor(seg_prob), dim=0).cpu().numpy()
                     seg_prob = crf_inference_coco(orig_image, seg_prob, labels=seg_prob.shape[0])
+                elif args.dataset == "slum":
+                    # seg_prob = F.softmax(torch.tensor(seg_prob), dim=0).cpu().numpy()
+                    seg_prob = crf_inference_slum_settlements(orig_image, seg_prob, labels=seg_prob.shape[0])
                 else:
                     raise "dataset error"
 

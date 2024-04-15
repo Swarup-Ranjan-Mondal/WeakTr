@@ -304,6 +304,11 @@ if __name__ == '__main__':
         args.gt_dir = args.data_path / "voc_format" / "class_labels"
         args.img_dir = args.data_path / "images"
         args.cam_type="coco"
+    if "slum_settlements" in args.list:
+        args.data_path = Path(args.data_path) / "slum_settlements" if "slum_settlements" not in args.data_path else args.data_path
+        args.gt_dir = args.data_path / "voc_format" / "class_labels"
+        args.img_dir = args.data_path / "images"
+        args.cam_type="slum_settlements"
 
     if args.type == 'npy':
         assert args.t is not None or args.curve
