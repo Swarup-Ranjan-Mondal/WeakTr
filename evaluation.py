@@ -209,6 +209,11 @@ def do_python_eval(predict_folder, gt_folder, name_list, num_cls=21, input_type=
                     print('%11s:%7.3f%%' % (categories[i], IoU[i] * 100), end='\t')
                 else:
                     print('%11s:%7.3f%%' % (categories[i], IoU[i] * 100))
+            elif num_cls == 2:
+                if i % 2 != 1:
+                    print('%11s:%7.3f%%' % (categories_slum_settlements[i], IoU[i] * 100), end='\t')
+                else:
+                    print('%11s:%7.3f%%' % (categories_slum_settlements[i], IoU[i] * 100))
             else:
                 if i % 2 != 1:
                     print('%11s:%7.3f%%' % (categories_coco[i], IoU[i] * 100), end='\t')
