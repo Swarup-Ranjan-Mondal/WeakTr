@@ -258,12 +258,12 @@ def build_dataset(is_train, data_set, args, gen_attn=False):
     elif data_set == 'SLUM':
         dataset = SlumSettlementsDataset(data_root=args.data_path,
                                  train=is_train, gen_attn=gen_attn, transform=transform)
-        nb_classes = 2
+        nb_classes = 1
     elif data_set == 'SLUMMS':
         dataset = SlumSettlementsDatasetMS(img_name_list_path=args.img_ms_list, data_root=args.data_path,
                                    scales=tuple(args.scales),
                                    train=is_train, gen_attn=gen_attn, transform=transform)
-        nb_classes = 2
+        nb_classes = 1
 
     return dataset, nb_classes
 
