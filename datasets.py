@@ -168,7 +168,7 @@ class SlumSettlementsDataset(Dataset):
     def __init__(self, data_root, train=True, transform=None, gen_attn=False):
         img_name_list_path = os.path.join("slum_settlements", f'{"train" if train or gen_attn else "val"}_id.txt')
         self.img_name_list = load_img_name_list(img_name_list_path)
-        self.image_label = np.array([1, 0])
+        self.image_label = np.array([1])
         self.data_root = Path(data_root) / "slum_settlements" if "slum_settlements" not in data_root else Path(data_root)
         self.gt_dir = self.data_root / "voc_format" / "class_labels"
         self.transform = transform
@@ -191,7 +191,7 @@ class SlumSettlementsDatasetMS(Dataset):
     def __init__(self, img_name_list_path, data_root, scales, train=True, transform=None,
                  gen_attn=False, unit=1):
         self.img_name_list = load_img_name_list(img_name_list_path)
-        self.image_label = np.array([1, 0])
+        self.image_label = np.array([1])
         self.data_root = Path(data_root) / "slum_settlements" if "slum_settlements" not in data_root else Path(data_root)
         self.gt_dir = self.data_root / "voc_format" / "class_labels"
         self.transform = transform
