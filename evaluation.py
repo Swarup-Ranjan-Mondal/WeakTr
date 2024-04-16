@@ -141,7 +141,8 @@ def do_python_eval(predict_folder, gt_folder, name_list, num_cls=21, input_type=
                 predict_img = Image.fromarray(predict)
                 predict_img.save(os.path.join(out_dir, name + ".png"))
 
-        gt_file = os.path.join(gt_folder, ('%s.jpg' if 'slum_settlements' in gt_folder else '%s.png') % name)
+        extension = 'jpg' if 'slum_settlements' in gt_folder else 'png'
+        gt_file = os.path.join(gt_folder, f'{name}.{extension}')
         gt = np.array(Image.open(gt_file))
         cal = gt < 255
         mask = (predict == gt) * cal
